@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>-->
+            <PatternLayout pattern="%p: %m%n[%d][%rms] [%l/%t]%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+        <Logger name="org.springframework" level="info"/>
+        <Logger name="org.springframework.web.servlet" level="debug"/>
+        <Logger name="ru.wsoft.ps.abu.rest.client" level="debug"/>
+        <Logger name="com.mchange.v2.c3p0" level="error"/>
+    </Loggers>
+</Configuration>
