@@ -17,6 +17,7 @@
         <!--<class>ru.wsoft.cms.admin.entity.AbstractEntity</class>-->
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <non-jta-data-source>java:comp/env/jdbc/DSDB</non-jta-data-source>
+
         <properties>
             <property name="eclipselink.allow-zero-id" value="true"/>
             <property name="eclipselink.logging.level" value="WARNING"/>
