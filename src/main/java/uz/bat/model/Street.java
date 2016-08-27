@@ -10,9 +10,14 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Street.findAll", query = "SELECT s FROM Street s")
-public class Street extends AbstractUzBatEntity
+public class Street implements Serializable
 {
+    private static final long serialVersionUID = 1L;
 
+    @Id
+    @SequenceGenerator(name = "STREET_ID_GENERATOR", sequenceName = "STREET_SEQUENSE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "STREET_ID_GENERATOR")
+    private Long id;
 
     private String name;
 
@@ -26,6 +31,16 @@ public class Street extends AbstractUzBatEntity
 
     public Street()
     {
+    }
+
+    public Long getId()
+    {
+        return this.id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
     }
 
     public String getName()

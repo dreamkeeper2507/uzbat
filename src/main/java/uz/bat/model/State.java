@@ -1,28 +1,34 @@
 package uz.bat.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * The persistent class for the state database table.
  */
 @Entity
 @NamedQuery(name = "State.findAll", query = "SELECT s FROM State s")
-public class State extends AbstractUzBatEntity
+public class State implements Serializable
 {
+    private static final long serialVersionUID = 1L;
 
+    @Id
+    @SequenceGenerator(name = "STATE_ID_GENERATOR", sequenceName = "STATE_SEQUENSE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "STATE_ID_GENERATOR")
+    private Long id;
 
     private String code;
 
     private String name;
 
-    //bi-directional many-to-one association to Region
+    // bi-directional many-to-one association to Region
     @OneToMany(mappedBy = "state")
     private List<Region> regions;
 
-    //bi-directional many-to-one association to Country
+    // bi-directional many-to-one association to Country
     @ManyToOne
     private Country country;
 
@@ -30,6 +36,15 @@ public class State extends AbstractUzBatEntity
     {
     }
 
+    public Long getId()
+    {
+        return this.id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
     public String getCode()
     {

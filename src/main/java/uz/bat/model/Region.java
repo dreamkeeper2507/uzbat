@@ -1,26 +1,34 @@
 package uz.bat.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * The persistent class for the region database table.
  */
 @Entity
 @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r")
-public class Region extends AbstractUzBatEntity
+public class Region implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @SequenceGenerator(name = "REGION_ID_GENERATOR", sequenceName = "REGION_SEQUENSE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REGION_ID_GENERATOR")
+    private Long id;
+
     private String code;
 
     private String name;
 
-    //bi-directional many-to-one association to State
+    // bi-directional many-to-one association to State
     @ManyToOne
     private State state;
 
-    //bi-directional many-to-one association to Street
+    // bi-directional many-to-one association to Street
     @OneToMany(mappedBy = "region")
     private List<Street> streets;
 
@@ -28,6 +36,15 @@ public class Region extends AbstractUzBatEntity
     {
     }
 
+    public Long getId()
+    {
+        return this.id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
     public String getCode()
     {

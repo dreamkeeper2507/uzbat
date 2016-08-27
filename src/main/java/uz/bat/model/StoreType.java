@@ -1,36 +1,32 @@
 package uz.bat.model;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.List;
 
 /**
- * The persistent class for the address database table.
+ * The persistent class for the storetype database table.
  */
 @Entity
-@NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a")
-public class Address implements Serializable
+@NamedQuery(name = "StoreType.findAll", query = "SELECT s FROM StoreType s")
+public class StoreType implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "ADDRESS_ID_GENERATOR", sequenceName = "ADDRESS_SEQUENSE")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADDRESS_ID_GENERATOR")
+    @SequenceGenerator(name = "STORETYPE_ID_GENERATOR", sequenceName = "STORETYPE_SEQUENSE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "STORETYPE_ID_GENERATOR")
     private Long id;
 
-    private String address;
+    private String description;
 
-    // bi-directional many-to-one association to Street
-    @ManyToOne
-    private Street street;
+    private String typeName;
 
     // bi-directional many-to-one association to Store
-    @OneToMany(mappedBy = "addressBean")
+    @OneToMany(mappedBy = "storetype")
     private List<Store> stores;
 
-    public Address()
+    public StoreType()
     {
     }
 
@@ -44,24 +40,24 @@ public class Address implements Serializable
         this.id = id;
     }
 
-    public String getAddress()
+    public String getDescription()
     {
-        return this.address;
+        return this.description;
     }
 
-    public void setAddress(String address)
+    public void setDescription(String description)
     {
-        this.address = address;
+        this.description = description;
     }
 
-    public Street getStreet()
+    public String getTypeName()
     {
-        return this.street;
+        return this.typeName;
     }
 
-    public void setStreet(Street street)
+    public void setTypeName(String typeName)
     {
-        this.street = street;
+        this.typeName = typeName;
     }
 
     public List<Store> getStores()
@@ -77,7 +73,7 @@ public class Address implements Serializable
     public Store addStore(Store store)
     {
         getStores().add(store);
-        store.setAddressBean(this);
+        store.setStoretype(this);
 
         return store;
     }
@@ -85,7 +81,7 @@ public class Address implements Serializable
     public Store removeStore(Store store)
     {
         getStores().remove(store);
-        store.setAddressBean(null);
+        store.setStoretype(null);
 
         return store;
     }
