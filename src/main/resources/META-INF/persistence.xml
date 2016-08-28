@@ -6,22 +6,37 @@
     <persistence-unit name="JPAService" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
-        <!--<class>ru.wsoft.cms.admin.entity.SmsChanel</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.SmsBrokerAccounts</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.SmsBrokerProtocols</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.Organizations</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.OperatorStandards</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.Countries</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.Operators</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.Us</class>-->
-        <!--<class>ru.wsoft.cms.admin.entity.AbstractEntity</class>-->
+        <class>uz.bat.model.entity.Address</class>
+        <class>uz.bat.model.entity.Brand</class>
+        <class>uz.bat.model.entity.Address</class>
+        <class>uz.bat.model.entity.Category</class>
+        <class>uz.bat.model.entity.CategoryInfo</class>
+        <class>uz.bat.model.entity.Company</class>
+        <class>uz.bat.model.entity.Country</class>
+        <class>uz.bat.model.entity.Period</class>
+        <class>uz.bat.model.entity.Phone</class>
+        <class>uz.bat.model.entity.Person</class>
+        <class>uz.bat.model.entity.Product</class>
+        <class>uz.bat.model.entity.ProductUnit</class>
+        <class>uz.bat.model.entity.Region</class>
+        <class>uz.bat.model.entity.Role</class>
+        <class>uz.bat.model.entity.State</class>
+        <class>uz.bat.model.entity.Store</class>
+        <class>uz.bat.model.entity.StoreType</class>
+        <class>uz.bat.model.entity.Street</class>
+        <class>uz.bat.model.entity.Supplier</class>
+        <class>uz.bat.model.entity.User</class>
+        <class>uz.bat.model.entity.UserProfile</class>
+        <class>uz.bat.model.entity.AbstractUzBatEntity</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <non-jta-data-source>java:comp/env/jdbc/DSDB</non-jta-data-source>
+        <validation-mode>NONE</validation-mode>
 
-        <properties>
-            <property name="eclipselink.allow-zero-id" value="true"/>
-            <property name="eclipselink.logging.level" value="WARNING"/>
-        </properties>
+        <!--<properties>-->
+            <!--<property name="eclipselink.ddl-generation" value="none"/>-->
+            <!--<property name="eclipselink.allow-zero-id" value="true"/>-->
+        <!--</properties>-->
     </persistence-unit>
 
 </persistence>
+
+        <!--<property name="eclipselink.logging.level" value="WARNING"/>-->

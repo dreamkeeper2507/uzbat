@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+                http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+                 http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <!-- Directory to scan for repository classes -->
+    <jpa:repositories base-package="uz.bat.model.repository"/>
+    <context:property-placeholder location="classpath:database.properties"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${database.jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${database.jdbc.url}"/>
+        <property name="user" value="${database.jdbc.username}"/>
+        <property name="password" value="${database.jdbc.password}"/>
+        <property name="acquireIncrement" value="1"/>
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <property name="maxPoolSize" value="3"/>
+        <property name="maxStatements" value="50"/>
+        <property name="minPoolSize" value="1"/>
+        <property name="autoCommitOnClose" value="true"/>
+    </bean>
+
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="dataSource"/>
+
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.target-database" value="PostgreSQL"/>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.ddl-generation" value="none"/>
+            </map>
+        </property>
+        <property name="persistenceUnitName" value="JPAService"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+    <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+    <!--</bean>-->
+
+</beans>
