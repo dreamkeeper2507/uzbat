@@ -7,6 +7,7 @@
 
     <import resource="spring-mvc.xml"/>
     <import resource="spring-rest-client.xml"/>
+    <import resource="spring-jpa.xml"/>
 
     <context:property-placeholder location="classpath:application.properties"/>
 
