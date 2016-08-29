@@ -3,7 +3,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <import resource="spring-mvc.xml"/>
@@ -23,11 +22,13 @@
         <property name="cacheSeconds" value="-1"/>
         <property name="useCodeAsDefaultMessage" value="true"/>
     </bean>
+
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="language" />
+        <property name="paramName" value="language"/>
     </bean>
+
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-        <property name="defaultLocale" value="ru" />
+        <property name="defaultLocale" value="ru"/>
     </bean>
     <!--End of I18N Support-->
 
@@ -35,10 +36,7 @@
     <!-- Scans within the base package of the application for @Component classes to configure as beans -->
 
 
-
     <context:property-placeholder location="classpath:application.properties"/>
-
-
 
 
 </beans>

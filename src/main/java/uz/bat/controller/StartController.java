@@ -13,6 +13,7 @@ public class StartController
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String startProcess(Model model, HttpServletRequest request)
     {
+
         return "start/index";
     }
 }
