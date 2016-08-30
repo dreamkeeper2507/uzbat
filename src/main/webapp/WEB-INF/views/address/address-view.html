@@ -30,17 +30,18 @@
                                    id="example">
                                 <thead>
                                 <tr>
-                                    <th>Улица</th>
-                                    <th>Город</th>
+                                    <th>Адресс</th>
                                     <th></th>
                                     <th></th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="address : ${addressList}">
                                     <td th:text="${address.address}"></td>
-                                    <td th:inline="text"><a href="#" th:onclick="'deleteObject(\'poll\', \''+${address.id} + '\');'">Удалить</a></td>
-                                    <td><a>Редактирвать</a></td>
+                                    <!--<td th:inline="text"><a href="#" th:onclick="'deleteObject(\'poll\', \''+${address.id} + '\');'">Удалить</a></td>-->
+                                    <td><a th:href="@{/address-delete(id=${address.id})}">Удалить</a></td>
+                                    <td><a th:href="@{/address-edit(id=${address.id})}">Редактирвать</a></td>
                                 </tr>
 <!--deleteobj('+','5');-->
                                 </tbody>
