@@ -6,59 +6,59 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import uz.bat.model.entity.Address;
-import uz.bat.service.AddressService;
+import uz.bat.model.entity.Category;
+import uz.bat.service.CategoryService;
 
 import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
-public class AddressController
+public class CategoryController
 {
     @Autowired
-    AddressService addressService;
+    CategoryService categoryService;
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/address-view", method = RequestMethod.GET)
+    @RequestMapping(value = "/category-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
 
-        model.addAttribute("addressList", addressService.all());
-        return "address/address-view";
+        model.addAttribute("categoryList", categoryService.all());
+        return "category/category-view";
     }
 
-    @RequestMapping(value = "/address-edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/category-edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request)
     {
 
-        Address address = new Address();
+        Category category = new Category();
 
         Long id = Long.valueOf(request.getParameter("id"));
         if (id != null && id > (long) 0)
         {
-            address = addressService.findOne(id);
+            category = categoryService.findOne(id);
         }
-        model.addAttribute("address", address);
-        return "address/address-edit";
+        model.addAttribute("category", category);
+        return "category/category-edit";
     }
 
-    @RequestMapping(value = "/address-save", method = RequestMethod.POST)
+    @RequestMapping(value = "/category-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {
         Long id = Long.valueOf(request.getParameter("idObject"));
-             return "redirect:/address-view";
+             return "redirect:/category-view";
     }
 
-    @RequestMapping(value = "/address-delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/category-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
 
-        Address address = new Address();
+        Category category = new Category();
 
         Long id = Long.valueOf(request.getParameter("id"));
 
 
-        return "redirect:/address-view";
+        return "redirect:/category-view";
     }
 }

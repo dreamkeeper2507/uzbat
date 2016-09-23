@@ -6,59 +6,59 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import uz.bat.model.entity.Address;
-import uz.bat.service.AddressService;
+import uz.bat.model.entity.Street;
+import uz.bat.service.StreetService;
 
 import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
-public class AddressController
+public class StreetController
 {
     @Autowired
-    AddressService addressService;
+    StreetService streetService;
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/address-view", method = RequestMethod.GET)
+    @RequestMapping(value = "/street-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
 
-        model.addAttribute("addressList", addressService.all());
-        return "address/address-view";
+        model.addAttribute("streetList", streetService.all());
+        return "street/street-view";
     }
 
-    @RequestMapping(value = "/address-edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/street-edit", method = RequestMethod.GET)
     public String edit(Model model, HttpServletRequest request)
     {
 
-        Address address = new Address();
+        Street street = new Street();
 
         Long id = Long.valueOf(request.getParameter("id"));
         if (id != null && id > (long) 0)
         {
-            address = addressService.findOne(id);
+            street = streetService.findOne(id);
         }
-        model.addAttribute("address", address);
-        return "address/address-edit";
+        model.addAttribute("street", street);
+        return "street/street-edit";
     }
 
-    @RequestMapping(value = "/address-save", method = RequestMethod.POST)
+    @RequestMapping(value = "/street-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {
         Long id = Long.valueOf(request.getParameter("idObject"));
-             return "redirect:/address-view";
+             return "redirect:/street-view";
     }
 
-    @RequestMapping(value = "/address-delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/street-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
 
-        Address address = new Address();
+        Street street = new Street();
 
         Long id = Long.valueOf(request.getParameter("id"));
 
 
-        return "redirect:/address-view";
+        return "redirect:/street-view";
     }
 }

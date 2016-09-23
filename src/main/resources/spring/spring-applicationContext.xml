@@ -8,7 +8,8 @@
     <import resource="spring-mvc.xml"/>
     <import resource="spring-rest-client.xml"/>
     <import resource="spring-jpa.xml"/>
-
+    <context:component-scan base-package="uz.bat.controller"/>
+    <context:component-scan base-package="uz.bat.service"/>
     <context:property-placeholder location="classpath:application.properties"/>
 
     <!--I18N support-->
