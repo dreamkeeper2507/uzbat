@@ -22,7 +22,7 @@
 
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Адресс</div>
+                            <div class="panel-title">Статус магазина</div>
 
                         </div>
                         <div class="panel-body">
@@ -37,11 +37,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="address : ${addressList}">
-                                    <td th:text="${address.address}"></td>
+                                <tr th:each="status : ${storeStatusList}">
+                                    <td th:text="${status.statusName}"></td>
                                     <!--<td th:inline="text"><a href="#" th:onclick="'deleteObject(\'poll\', \''+${address.id} + '\');'">Удалить</a></td>-->
-                                    <td><a th:href="@{/address-delete(id=${address.id})}">Удалить</a></td>
-                                    <td><a th:href="@{/address-edit(id=${address.id})}">Редактирвать</a></td>
+                                    <td><a th:href="@{/address-delete(id=${status.id})}">Удалить</a></td>
+                                    <td><a th:href="@{/address-edit(id=${status.id})}">Редактирвать</a></td>
                                 </tr>
 <!--deleteobj('+','5');-->
                                 </tbody>

@@ -79,4 +79,13 @@ public class Address implements Serializable {
         return store;
     }
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", street=" + street +
+                ", stores=" + stores +
+                '}';
+    }
 }
