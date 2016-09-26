@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.model.entity.Address;
 import uz.bat.model.entity.Country;
 import uz.bat.service.CountryService;
 
@@ -33,8 +34,9 @@ public class CountryController
     {
 
         Country country = new Country();
-
-        Long id = Long.valueOf(request.getParameter("id"));
+        Long id = null;
+        if (request.getParameter("id") != null)
+            id = Long.valueOf(request.getParameter("id"));
         if (id != null && id > (long) 0)
         {
             country = countryService.findOne(id);
@@ -46,18 +48,34 @@ public class CountryController
     @RequestMapping(value = "/country-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {
-        Long id = Long.valueOf(request.getParameter("idObject"));
-             return "redirect:/country-view";
+
+        String name = request.getParameter("name");
+        String code = request.getParameter("code");
+        logger.info(name + ":" + code);
+        Country country = null;
+        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
+        {
+            Long id = Long.valueOf(request.getParameter("idObject"));
+            if (id != null & id > (long) 0)
+                country = countryService.findOne(id);
+        } else
+            country = new Country();
+
+        country.setName(name);
+        country.setCode(code);
+        countryService.create(country);
+        logger.info(country.toString());
+        return "redirect:/country-view";
     }
 
     @RequestMapping(value = "/country-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
 
-        Country country = new Country();
 
         Long id = Long.valueOf(request.getParameter("id"));
-
+        if (id != null)
+            countryService.remove(id);
 
         return "redirect:/country-view";
     }

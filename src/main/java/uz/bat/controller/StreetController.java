@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import uz.bat.model.entity.Street;
+
 import uz.bat.service.StreetService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,20 +34,45 @@ public class StreetController
     {
 
         Street street = new Street();
-
-        Long id = Long.valueOf(request.getParameter("id"));
+        Long id = null;
+        if (request.getParameter("id") != null)
+            id = Long.valueOf(request.getParameter("id"));
         if (id != null && id > (long) 0)
         {
             street = streetService.findOne(id);
         }
         model.addAttribute("street", street);
+        model.addAttribute("regionList", streetService.allRegions());
         return "street/street-edit";
     }
 
     @RequestMapping(value = "/street-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {
-        Long id = Long.valueOf(request.getParameter("idObject"));
+        String name = request.getParameter("name");
+
+        Long regionId = null;
+        if (request.getParameter("regionId") != null)
+        {
+            regionId = Long.valueOf(request.getParameter("regionId"));
+
+        }
+        logger.info(name + ":");
+        Street street = null;
+        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
+        {
+            Long id = Long.valueOf(request.getParameter("idObject"));
+            if (id != null & id > (long) 0)
+                street = streetService.findOne(id);
+        } else
+            street = new Street();
+
+        street.setName(name);
+
+        if(regionId!=null&& regionId>(long)0)
+            street.setRegion(streetService.findOneRegion(regionId));
+        streetService.create(street);
+        logger.info(street.toString());
              return "redirect:/street-view";
     }
 
@@ -54,9 +80,10 @@ public class StreetController
     public String delete(Model model, HttpServletRequest request)
     {
 
-        Street street = new Street();
-
         Long id = Long.valueOf(request.getParameter("id"));
+        if (id != null)
+            streetService.remove(id);
+
 
 
         return "redirect:/street-view";

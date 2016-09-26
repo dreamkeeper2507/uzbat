@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import uz.bat.model.entity.Region;
+
 import uz.bat.service.RegionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,31 +35,55 @@ public class RegionController
     {
 
         Region region = new Region();
-
-        Long id = Long.valueOf(request.getParameter("id"));
+        Long id = null;
+        if (request.getParameter("id") != null)
+            id = Long.valueOf(request.getParameter("id"));
         if (id != null && id > (long) 0)
         {
             region = regionService.findOne(id);
         }
         model.addAttribute("region", region);
+        model.addAttribute("stateList", regionService.allStates());
         return "region/region-edit";
     }
 
     @RequestMapping(value = "/region-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {
-        Long id = Long.valueOf(request.getParameter("idObject"));
-             return "redirect:/region-view";
+        String name = request.getParameter("name");
+        String code = request.getParameter("code");
+        Long stateId = null;
+        if (request.getParameter("stateId") != null)
+        {
+            stateId = Long.valueOf(request.getParameter("stateId"));
+
+        }
+        logger.info(name + ":" + code);
+        Region region = null;
+        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
+        {
+            Long id = Long.valueOf(request.getParameter("idObject"));
+            if (id != null & id > (long) 0)
+                region = regionService.findOne(id);
+        } else
+            region = new Region();
+
+        region.setName(name);
+        region.setCode(code);
+        if (stateId != null && stateId > (long) 0)
+            region.setState(regionService.findOneState(stateId));
+        regionService.create(region);
+        logger.info(region.toString());
+        return "redirect:/region-view";
     }
 
     @RequestMapping(value = "/region-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
 
-        Region region = new Region();
-
         Long id = Long.valueOf(request.getParameter("id"));
-
+        if (id != null)
+            regionService.remove(id);
 
         return "redirect:/region-view";
     }

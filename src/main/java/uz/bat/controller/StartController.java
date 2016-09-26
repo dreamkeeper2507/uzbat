@@ -14,6 +14,6 @@ public class StartController
     public String startProcess(Model model, HttpServletRequest request)
     {
 
-        return "start/index";
+        return "redirect:address-view";
     }
 }

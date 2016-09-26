@@ -22,28 +22,36 @@
 
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Адресс</div>
-
+                            <div class="panel-title">Область</div>
+                            <hr/>
+                            <br/>
+                            <a href="state-edit">Создать</a>
                         </div>
                         <div class="panel-body">
                             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"
                                    id="example">
                                 <thead>
                                 <tr>
-                                    <th>Адресс</th>
+                                    <th>Название</th>
+                                    <th>Код</th>
+                                    <th>Страна</th>
                                     <th></th>
                                     <th></th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="address : ${addressList}">
-                                    <td th:text="${address.address}"></td>
+                                <tr th:each="state : ${stateList}">
+                                    <td th:text="${state.name}"></td>
+                                    <td th:text="${state.code}"></td>
+
+                                    <td th:if="${state.country != null}" th:text="${state.country.name}"></td>
+                                    <td th:if="${state.country == null}"></td>
                                     <!--<td th:inline="text"><a href="#" th:onclick="'deleteObject(\'poll\', \''+${address.id} + '\');'">Удалить</a></td>-->
-                                    <td><a th:href="@{/address-delete(id=${address.id})}">Удалить</a></td>
-                                    <td><a th:href="@{/address-edit(id=${address.id})}">Редактирвать</a></td>
+                                    <td><a th:href="@{/state-delete(id=${state.id})}">Удалить</a></td>
+                                    <td><a th:href="@{/state-edit(id=${state.id})}">Редактирвать</a></td>
                                 </tr>
-<!--deleteobj('+','5');-->
+                                <!--deleteobj('+','5');-->
                                 </tbody>
                             </table>
                         </div>
@@ -60,7 +68,7 @@
 <script th:src="@{/resources/js/common/list.js}" th:inline="javascript"></script>
 <script th:src="@{/resources/js/jquery/jquery.js}"></script>
 <script th:src="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/resources/js/custom.js}" ></script>
+<script th:src="@{/resources/js/custom.js}"></script>
 </body>
 
 </html>

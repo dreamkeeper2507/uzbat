@@ -88,4 +88,14 @@ public class Country implements Serializable
         return state;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Country{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", states=" + states +
+                '}';
+    }
 }

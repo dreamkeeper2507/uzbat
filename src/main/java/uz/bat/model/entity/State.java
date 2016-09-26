@@ -102,4 +102,15 @@ public class State implements Serializable
         this.country = country;
     }
 
+    @Override
+    public String toString()
+    {
+        return "State{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", regions=" + regions +
+                ", country=" + country +
+                '}';
+    }
 }

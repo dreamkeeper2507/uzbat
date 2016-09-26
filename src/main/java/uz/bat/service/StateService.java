@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.bat.model.entity.Country;
 import uz.bat.model.entity.State;
+import uz.bat.model.repository.CountryRepository;
 import uz.bat.model.repository.StateRepository;
 
 import java.util.List;
@@ -46,6 +48,19 @@ public class StateService
         return stateRepository.findAll(page);
     }
 
+    public List<Country> allCountries()
+    {
+        return countryRepository.findAll();
+    }
+
+    public Country findOneCountry(Long countryId)
+    {
+        return countryRepository.findOne(countryId);
+    }
+
     @Autowired
     StateRepository stateRepository;
+    @Autowired
+    CountryRepository countryRepository;
+
 }

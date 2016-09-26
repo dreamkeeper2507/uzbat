@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.bat.model.entity.Region;
+import uz.bat.model.entity.State;
 import uz.bat.model.repository.RegionRepository;
+import uz.bat.model.repository.StateRepository;
 
 import java.util.List;
 
@@ -46,6 +48,20 @@ public class RegionService
         return regionRepository.findAll(page);
     }
 
+    public List<State> allStates()
+    {
+        return stateRepository.findAll();
+    }
+
+    public State findOneState(Long stateId)
+    {
+      return   stateRepository.findOne(stateId);
+    }
+
     @Autowired
     RegionRepository regionRepository;
+    @Autowired
+    StateRepository stateRepository;
+
+
 }

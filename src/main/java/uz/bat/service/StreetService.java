@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.bat.model.entity.Region;
 import uz.bat.model.entity.Street;
+import uz.bat.model.repository.RegionRepository;
 import uz.bat.model.repository.StreetRepository;
 
 import java.util.List;
@@ -46,6 +48,20 @@ public class StreetService
         return streetRepository.findAll(page);
     }
 
+
+    public List<Region> allRegions()
+    {
+        return regionRepository.findAll();
+    }
+
+    public Region findOneRegion(Long regionId)
+    {
+        return regionRepository.findOne(regionId);
+    }
+
     @Autowired
     StreetRepository streetRepository;
+    @Autowired
+    RegionRepository regionRepository;
+
 }
