@@ -13,44 +13,60 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
-public class AddressController {
+public class AddressController
+{
     @Autowired
     AddressService addressService;
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/address-view", method = RequestMethod.GET)
-    public String view(Model model, HttpServletRequest request) {
+    public String view(Model model, HttpServletRequest request)
+    {
 
         model.addAttribute("addressList", addressService.all());
         return "address/address-view";
     }
 
     @RequestMapping(value = "/address-edit", method = RequestMethod.GET)
-    public String edit(Model model, HttpServletRequest request) {
+    public String edit(Model model, HttpServletRequest request)
+    {
 
         Address address = new Address();
         Long id = null;
         if (request.getParameter("id") != null)
             id = Long.valueOf(request.getParameter("id"));
-        if (id != null && id > (long) 0) {
+        if (id != null && id > (long) 0)
+        {
             address = addressService.findOne(id);
         }
         model.addAttribute("address", address);
+        model.addAttribute("streetList", addressService.allStreets());
+
         return "address/address-edit";
     }
 
     @RequestMapping(value = "/address-save", method = RequestMethod.POST)
-    public String save(Model model, HttpServletRequest request) {
+    public String save(Model model, HttpServletRequest request)
+    {
 
         String addressStr = request.getParameter("address");
         Address address = null;
-        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals("")) {
+        Long streetId = null;
+        if (request.getParameter("streetId") != null)
+        {
+            streetId = Long.valueOf(request.getParameter("streetId"));
+
+        }
+        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
+        {
             Long id = Long.valueOf(request.getParameter("idObject"));
             if (id != null & id > (long) 0)
                 address = addressService.findOne(id);
         } else
             address = new Address();
+        if (streetId != null && streetId > (long) 0)
+            address.setStreet(addressService.findStreetById(streetId));
         address.setAddress(addressStr);
         addressService.create(address);
         logger.info(address.toString());
@@ -58,11 +74,14 @@ public class AddressController {
     }
 
     @RequestMapping(value = "/address-delete", method = RequestMethod.GET)
-    public String delete(Model model, HttpServletRequest request) {
+    public String delete(Model model, HttpServletRequest request)
+    {
 
-        Address address = new Address();
+
 
         Long id = Long.valueOf(request.getParameter("id"));
+        if (id != null)
+            addressService.remove(id);
 
 
         return "redirect:/address-view";

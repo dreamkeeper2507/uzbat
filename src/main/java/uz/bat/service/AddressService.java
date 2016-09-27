@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.bat.model.entity.Address;
+import uz.bat.model.entity.Street;
 import uz.bat.model.repository.AddressRepository;
+import uz.bat.model.repository.StreetRepository;
 
 import java.util.List;
 
@@ -46,6 +48,20 @@ public class AddressService
         return addressRepository.findAll(page);
     }
 
+
+    public List<Street> allStreets()
+    {
+        return streetRepository.findAll();
+    }
+
+    public Street findStreetById(Long id)
+    {
+        return streetRepository.findOne(id);
+    }
+
+    @Autowired
+    StreetRepository streetRepository;
     @Autowired
     AddressRepository addressRepository;
+
 }
