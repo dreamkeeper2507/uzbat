@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.bat.model.entity.Product;
-import uz.bat.model.repository.ProductRepository;
+import uz.bat.model.entity.*;
+import uz.bat.model.repository.*;
 
 import java.util.List;
 
@@ -46,6 +46,56 @@ public class ProductService
         return productRepository.findAll(page);
     }
 
+
+    public List<ProductUnit> allPproductunit()
+    {
+        return productUnitRepository.findAll();
+    }
+
+    public List<Supplier> allSupplier()
+    {
+        return supplierRepository.findAll();
+    }
+
+    public List<Category> allCategory()
+    {
+        return categoryRepository.findAll();
+    }
+
+    public List<Brand> allBrand()
+    {
+        return brandRepository.findAll();
+    }
+
+    public Brand findBrandById(Long brandId)
+    {return brandRepository.findOne(brandId);
+    }
+
+    public Category findCategoryById(Long categoryId)
+    {
+        return categoryRepository.findOne(categoryId);
+    }
+
+    public Supplier findSupplierById(Long supplierId)
+    {
+        return supplierRepository.findOne(supplierId);
+    }
+
+    public ProductUnit findProductunitById(Long productunitId)
+    {
+        return productUnitRepository.findOne(productunitId);
+    }
+
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ProductUnitRepository productUnitRepository;
+    @Autowired
+    SupplierRepository supplierRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    BrandRepository brandRepository;
+
+
 }

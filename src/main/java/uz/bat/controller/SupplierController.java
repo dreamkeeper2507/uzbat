@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.RemoveException;
 import uz.bat.model.entity.Supplier;
 import uz.bat.service.SupplierService;
 
@@ -33,8 +34,9 @@ public class SupplierController
     {
 
         Supplier supplier = new Supplier();
-
-        Long id = Long.valueOf(request.getParameter("id"));
+        Long id = null;
+        if (request.getParameter("id") != null)
+            id = Long.valueOf(request.getParameter("id"));
         if (id != null && id > (long) 0)
         {
             supplier = supplierService.findOne(id);
@@ -46,19 +48,39 @@ public class SupplierController
     @RequestMapping(value = "/supplier-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {
-        Long id = Long.valueOf(request.getParameter("idObject"));
-             return "redirect:/supplier-view";
+        String name = request.getParameter("name");
+
+
+        Supplier supplier = null;
+        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
+        {
+            Long id = Long.valueOf(request.getParameter("idObject"));
+            if (id != null & id > (long) 0)
+                supplier = supplierService.findOne(id);
+        } else
+            supplier = new Supplier();
+
+        supplier.setName(name);
+
+        supplierService.create(supplier);
+        logger.info(supplier.toString());
+        return "redirect:/supplier-view";
     }
 
     @RequestMapping(value = "/supplier-delete", method = RequestMethod.GET)
-    public String delete(Model model, HttpServletRequest request)
+    public String delete(Model model, HttpServletRequest request) throws RemoveException
     {
+        try
+        {
+            Long id = Long.valueOf(request.getParameter("id"));
+            if (id != null)
+                supplierService.remove(id);
 
-        Supplier supplier = new Supplier();
-
-        Long id = Long.valueOf(request.getParameter("id"));
-
-
+        } catch (Exception e)
+        {
+            logger.info(e.getMessage());
+            throw new RemoveException();
+        }
         return "redirect:/supplier-view";
     }
 }

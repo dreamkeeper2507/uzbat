@@ -52,11 +52,7 @@ public class StreetController
         String name = request.getParameter("name");
 
         Long regionId = null;
-        if (request.getParameter("regionId") != null)
-        {
-            regionId = Long.valueOf(request.getParameter("regionId"));
 
-        }
         logger.info(name + ":");
         Street street = null;
         if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
@@ -68,12 +64,16 @@ public class StreetController
             street = new Street();
 
         street.setName(name);
+        if (request.getParameter("regionId") != null && !request.getParameter("regionId").equals(""))
+        {
+            regionId = Long.valueOf(request.getParameter("regionId"));
 
-        if(regionId!=null&& regionId>(long)0)
+        }
+        if (regionId != null && regionId > (long) 0)
             street.setRegion(streetService.findOneRegion(regionId));
         streetService.create(street);
         logger.info(street.toString());
-             return "redirect:/street-view";
+        return "redirect:/street-view";
     }
 
     @RequestMapping(value = "/street-delete", method = RequestMethod.GET)
@@ -83,7 +83,6 @@ public class StreetController
         Long id = Long.valueOf(request.getParameter("id"));
         if (id != null)
             streetService.remove(id);
-
 
 
         return "redirect:/street-view";

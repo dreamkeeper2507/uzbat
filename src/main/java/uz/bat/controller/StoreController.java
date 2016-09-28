@@ -65,7 +65,7 @@ public class StoreController
             store = new Store();
 
         Long addressId = null;
-        if (request.getParameter("addressId") != null)
+        if (request.getParameter("addressId") != null && !request.getParameter("addressId").equals(""))
         {
             addressId = Long.valueOf(request.getParameter("addressId"));
 
@@ -74,7 +74,7 @@ public class StoreController
             store.setAddressBean(storeService.findAddressById(addressId));
 
         Long personId = null;
-        if (request.getParameter("personId") != null)
+        if (request.getParameter("personId") != null && !request.getParameter("personId").equals(""))
         {
             personId = Long.valueOf(request.getParameter("personId"));
 
@@ -83,7 +83,7 @@ public class StoreController
             store.setPerson(storeService.findPersonById(personId));
 
         Long storeTypeId = null;
-        if (request.getParameter("storeTypeId") != null)
+        if (request.getParameter("storeTypeId") != null && !request.getParameter("storeTypeId").equals(""))
         {
             storeTypeId = Long.valueOf(request.getParameter("storeTypeId"));
 

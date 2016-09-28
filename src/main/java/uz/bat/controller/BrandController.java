@@ -52,7 +52,7 @@ public class BrandController
         String brandName = request.getParameter("brandName");
         String description = request.getParameter("description");
         Long companyId = null;
-        if (request.getParameter("companyId") != null)
+        if (request.getParameter("companyId") != null&& !request.getParameter("companyId").equals(""))
         {
             companyId = Long.valueOf(request.getParameter("companyId"));
 

@@ -21,7 +21,7 @@
 
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Flhtcc</div>
+                            <div class="panel-title">Товары</div>
 
                             <div class="panel-options">
                                 <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
@@ -29,56 +29,89 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <form class="form-horizontal" role="form" method="post" action="#" th:action="@{/address-save}">
-                                <input type="hidden" id="idObject" name="idObject" th:value="${address.id}"/>
+                            <form class="form-horizontal" role="form" method="post" action="#" th:action="@{/product-save}">
+                                <input type="hidden" id="idObject" name="idObject" th:value="${product.id}"/>
 
                                 <div class="form-group">
-                                    <label for="address" class="col-sm-2 control-label">Адресс</label>
+                                    <label for="productName" class="col-sm-2 control-label">Название</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="address" placeholder="Адресс"
-                                               th:value="${address.address}"/>
+                                        <input type="text" class="form-control" id="productName" name="productName" placeholder="Название"
+                                               th:value="${product.productName}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label">Password Field</label>
+                                    <label for="productCode" class="col-sm-2 control-label">Код</label>
 
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="inputPassword3"
-                                               placeholder="Password"/>
+                                        <input type="text" class="form-control" id="productCode" name="productCode" placeholder="Код"
+                                               th:value="${product.productCode}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Textarea</label>
+                                    <label for="minPrice" class="col-sm-2 control-label">Мин цена</label>
 
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" placeholder="Textarea" rows="3"></textarea>
+                                        <input type="text" class="form-control" id="minPrice" name="minPrice" placeholder="Мин цена"
+                                               th:value="${product.minPrice}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Readonly</label>
+                                    <label for="maxPrice" class="col-sm-2 control-label">Макс цена</label>
 
                                     <div class="col-sm-10">
-                                        <span class="form-control">Read only text</span>
+                                        <input type="text" class="form-control" id="maxPrice" name="maxPrice" placeholder="Макс цена"
+                                               th:value="${product.maxPrice}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplierId" class="col-sm-2 control-label">Поставщик</label>
+
+                                    <div class="col-sm-10">
+                                        <select id="supplierId" name="supplierId" class="form-control">
+                                            <option></option>
+                                            <option th:each="supplier : ${supplierList}" th:value="${supplier.id}"
+                                                    th:text="${supplier.name}"  th:selected="${product != null and product.supplier !=null and supplier.id == product.supplier.id}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productunitId" class="col-sm-2 control-label">Наименование</label>
+
+                                    <div class="col-sm-10">
+                                        <select id="productunitId" name="productunitId" class="form-control">
+                                            <option></option>
+                                            <option th:each="productunit : ${productunitList}" th:value="${productunit.id}"
+                                                    th:text="${productunit.unitName}"  th:selected="${product != null and product.productunit !=null and productunit.id == product.productunit.id}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoryId" class="col-sm-2 control-label">Категории</label>
+
+                                    <div class="col-sm-10">
+                                        <select id="categoryId" name="categoryId" class="form-control">
+                                            <option></option>
+                                            <option th:each="categoryId : ${categoryList}" th:value="${categoryId.id}"
+                                                    th:text="${categoryId.categoryName}"  th:selected="${product != null and product.category !=null and categoryId.id == product.category.id}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="brandBeanId" class="col-sm-2 control-label">Бренд</label>
+
+                                    <div class="col-sm-10">
+                                        <select id="brandBeanId" name="brandBeanId" class="form-control">
+                                            <option></option>
+                                            <option th:each="brandBeanId : ${brandBeanList}" th:value="${brandBeanId.id}"
+                                                    th:text="${brandBeanId.brandName}"  th:selected="${product != null and product.brandBean !=null and brandBeanId.id == product.brandBean.id}"/>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"/> Checkbox
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"/> Checkbox
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Sign in</button>
+                                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                                        <a href="product-view" class="btn btn-primary">Отмена</a>
                                     </div>
                                 </div>
                             </form>

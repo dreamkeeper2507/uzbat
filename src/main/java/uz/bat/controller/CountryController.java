@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.RemoveException;
 import uz.bat.model.entity.Address;
 import uz.bat.model.entity.Country;
 import uz.bat.service.CountryService;
@@ -69,13 +70,20 @@ public class CountryController
     }
 
     @RequestMapping(value = "/country-delete", method = RequestMethod.GET)
-    public String delete(Model model, HttpServletRequest request)
+    public String delete(Model model, HttpServletRequest request) throws RemoveException
     {
 
 
-        Long id = Long.valueOf(request.getParameter("id"));
-        if (id != null)
-            countryService.remove(id);
+   try
+   {
+       Long id = Long.valueOf(request.getParameter("id"));
+       if (id != null)
+           countryService.remove(id);
+
+   }catch (Exception e){
+       logger.info(e.getMessage());
+   throw new  RemoveException();
+   }
 
         return "redirect:/country-view";
     }

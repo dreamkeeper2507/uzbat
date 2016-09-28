@@ -53,11 +53,7 @@ public class RegionController
         String name = request.getParameter("name");
         String code = request.getParameter("code");
         Long stateId = null;
-        if (request.getParameter("stateId") != null)
-        {
-            stateId = Long.valueOf(request.getParameter("stateId"));
 
-        }
         logger.info(name + ":" + code);
         Region region = null;
         if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
@@ -70,6 +66,11 @@ public class RegionController
 
         region.setName(name);
         region.setCode(code);
+        if (request.getParameter("stateId") != null && !request.getParameter("stateId").equals(""))
+        {
+            stateId = Long.valueOf(request.getParameter("stateId"));
+
+        }
         if (stateId != null && stateId > (long) 0)
             region.setState(regionService.findOneState(stateId));
         regionService.create(region);
