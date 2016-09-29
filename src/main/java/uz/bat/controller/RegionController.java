@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import uz.bat.common.ErrorText;
 import uz.bat.model.entity.Region;
 
 import uz.bat.service.RegionService;
@@ -25,7 +26,11 @@ public class RegionController
     @RequestMapping(value = "/region-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
-
+        if (request.getSession().getAttribute("errorMessage") != null)
+        {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
         model.addAttribute("regionList", regionService.all());
         return "region/region-view";
     }
@@ -81,10 +86,15 @@ public class RegionController
     @RequestMapping(value = "/region-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
-
-        Long id = Long.valueOf(request.getParameter("id"));
-        if (id != null)
-            regionService.remove(id);
+        try
+        {
+            Long id = Long.valueOf(request.getParameter("id"));
+            if (id != null)
+                regionService.remove(id);
+        } catch (Exception ex)
+        {
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
+        }
 
         return "redirect:/region-view";
     }

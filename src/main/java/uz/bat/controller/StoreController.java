@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.ErrorText;
 import uz.bat.model.entity.Store;
 
 import uz.bat.service.StoreService;
@@ -24,7 +25,11 @@ public class StoreController
     @RequestMapping(value = "/store-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
-
+        if (request.getSession().getAttribute("errorMessage") != null)
+        {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
         model.addAttribute("storeList", storeService.all());
         return "store/store-view";
     }
@@ -101,11 +106,16 @@ public class StoreController
     @RequestMapping(value = "/store-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
+        try
+        {
+            Long id = Long.valueOf(request.getParameter("id"));
+            if (id != null)
+                storeService.remove(id);
+        } catch (Exception ex)
+        {
 
-        Long id = Long.valueOf(request.getParameter("id"));
-        if (id != null)
-            storeService.remove(id);
-
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
+        }
 
         return "redirect:/store-view";
     }

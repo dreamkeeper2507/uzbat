@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.ErrorText;
 import uz.bat.model.entity.Person;
 import uz.bat.model.entity.Street;
 import uz.bat.service.PersonService;
@@ -24,7 +25,11 @@ public class PersonController
     @RequestMapping(value = "/person-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
-
+        if (request.getSession().getAttribute("errorMessage") != null)
+        {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
         model.addAttribute("personList", personService.all());
         return "person/person-view";
     }
@@ -55,7 +60,6 @@ public class PersonController
         String personPName = request.getParameter("personPName");
 
 
-
         Person person = null;
         if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
         {
@@ -72,17 +76,22 @@ public class PersonController
 
         personService.create(person);
         logger.info(person.toString());
-             return "redirect:/person-view";
+        return "redirect:/person-view";
     }
 
     @RequestMapping(value = "/person-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
 
-
-        Long id = Long.valueOf(request.getParameter("id"));
-        if (id != null)
-            personService.remove(id);
+        try
+        {
+            Long id = Long.valueOf(request.getParameter("id"));
+            if (id != null)
+                personService.remove(id);
+        } catch (Exception ex)
+        {
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
+        }
         return "redirect:/person-view";
     }
 }

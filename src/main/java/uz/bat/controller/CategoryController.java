@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.ErrorText;
 import uz.bat.model.entity.Category;
 
 import uz.bat.service.CategoryService;
@@ -24,7 +25,11 @@ public class CategoryController
     @RequestMapping(value = "/category-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
-
+        if (request.getSession().getAttribute("errorMessage") != null)
+        {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
         model.addAttribute("categoryList", categoryService.all());
         return "category/category-view";
     }
@@ -82,7 +87,7 @@ public class CategoryController
     public String delete(Model model, HttpServletRequest request)
     {
 
-        if (request.getParameter("id") != null )
+        try
         {
             Long id = Long.valueOf(request.getParameter("id"));
             try
@@ -94,6 +99,10 @@ public class CategoryController
             {
                 logger.info(e.getMessage());
             }
+        } catch (Exception ex)
+        {
+
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
         }
 
         return "redirect:/category-view";

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.ErrorText;
 import uz.bat.model.entity.Brand;
 import uz.bat.model.entity.Brand;
 import uz.bat.service.BrandService;
@@ -24,7 +25,11 @@ public class BrandController
     @RequestMapping(value = "/brand-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
-
+        if (request.getSession().getAttribute("errorMessage") != null)
+        {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
         model.addAttribute("brandList", brandService.all());
         return "brand/brand-view";
     }
@@ -52,7 +57,7 @@ public class BrandController
         String brandName = request.getParameter("brandName");
         String description = request.getParameter("description");
         Long companyId = null;
-        if (request.getParameter("companyId") != null&& !request.getParameter("companyId").equals(""))
+        if (request.getParameter("companyId") != null && !request.getParameter("companyId").equals(""))
         {
             companyId = Long.valueOf(request.getParameter("companyId"));
 
@@ -73,17 +78,22 @@ public class BrandController
             brand.setCompanyBean(brandService.findOneCompany(companyId));
         brandService.create(brand);
         logger.info(brand.toString());
-             return "redirect:/brand-view";
+        return "redirect:/brand-view";
     }
 
     @RequestMapping(value = "/brand-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
+        try
+        {
+            Long id = Long.valueOf(request.getParameter("id"));
+            if (id != null)
+                brandService.remove(id);
+        } catch (Exception ex)
+        {
 
-        Long id = Long.valueOf(request.getParameter("id"));
-        if (id != null)
-            brandService.remove(id);
-
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
+        }
 
         return "redirect:/brand-view";
     }

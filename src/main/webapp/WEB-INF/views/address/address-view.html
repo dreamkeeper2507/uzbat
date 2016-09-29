@@ -22,7 +22,8 @@
 
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Адресс</div>
+                            <div class="panel-title">Адрес</div>
+                            <div th:if="${errorMessage!=null}" th:text="${errorMessage}" align="center" style="color: #0fa6bc"></div>
                             <hr/>
                             <br/>
                             <a href="address-edit">Создать Новый</a>

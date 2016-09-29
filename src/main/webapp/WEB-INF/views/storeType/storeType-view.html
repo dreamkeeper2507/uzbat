@@ -23,6 +23,7 @@
                     <div class="content-box-large">
                         <div class="panel-heading">
                             <div class="panel-title">Тип магазина</div>
+                            <div th:if="${errorMessage!=null}" th:text="${errorMessage}" align="center" style="color: #0fa6bc"></div>
                             <hr/>
                             <br/>
                             <a href="storeType-edit">Создать Новый</a>

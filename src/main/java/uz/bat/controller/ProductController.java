@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import uz.bat.common.ErrorText;
 import uz.bat.model.entity.Product;
 
 import uz.bat.service.ProductService;
@@ -24,7 +25,11 @@ public class ProductController
     @RequestMapping(value = "/product-view", method = RequestMethod.GET)
     public String view(Model model, HttpServletRequest request)
     {
-
+        if (request.getSession().getAttribute("errorMessage") != null)
+        {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
         model.addAttribute("productList", productService.all());
         return "product/product-view";
     }
@@ -119,11 +124,18 @@ public class ProductController
     @RequestMapping(value = "/product-delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request)
     {
+try
+{
+
 
         Long id = Long.valueOf(request.getParameter("id"));
         if (id != null)
             productService.remove(id);
+} catch (Exception ex)
+{
 
+    request.getSession().setAttribute("errorMessage", ex.getMessage());
+}
 
         return "redirect:/product-view";
     }

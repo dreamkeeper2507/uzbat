@@ -25,7 +25,7 @@ public class ProductUnitController
     {
         if (request.getSession().getAttribute("errorMessage") != null)
         {
-            model.addAttribute("errorMessage", request.getSession().getAttribute("errorMessage"));
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
             request.getSession().removeAttribute("errorMessage");
         }
         model.addAttribute("productUnitList", productUnitService.all());
