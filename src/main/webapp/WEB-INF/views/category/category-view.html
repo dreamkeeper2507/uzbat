@@ -36,6 +36,7 @@
                                     <th>Название</th>
                                     <th>Описание</th>
                                     <th>Категории</th>
+                                    <th>Товары</th>
                                     <th></th>
                                     <th></th>
 
@@ -48,7 +49,7 @@
 
                                     <td th:if="${category.category != null}" th:text="${category.category.categoryName}"></td>
                                     <td th:if="${category.category == null}"></td>
-                                    <!--<td th:inline="text"><a href="#" th:onclick="'deleteObject(\'poll\', \''+${address.id} + '\');'">Удалить</a></td>-->
+                                    <td><a th:href="@{/product-category-view(categoryId=${category.id})}">Товары</a></td>
                                     <td><a th:href="@{/category-delete(id=${category.id})}">Удалить</a></td>
                                     <td><a th:href="@{/category-edit(id=${category.id})}">Редактирвать</a></td>
                                 </tr>

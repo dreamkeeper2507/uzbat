@@ -12,21 +12,19 @@ import uz.bat.model.entity.Product;
 import uz.bat.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 
 @Controller
-public class ProductController
-{
+public class ProductController {
     @Autowired
     ProductService productService;
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/product-view", method = RequestMethod.GET)
-    public String view(Model model, HttpServletRequest request)
-    {
-        if (request.getSession().getAttribute("errorMessage") != null)
-        {
+    public String view(Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("errorMessage") != null) {
             model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
             request.getSession().removeAttribute("errorMessage");
         }
@@ -34,17 +32,30 @@ public class ProductController
         return "product/product-view";
     }
 
+    @RequestMapping(value = "/product-category-view", method = RequestMethod.GET)
+    public String categoryView(Model model, HttpServletRequest request) {
+        logger.info("categoryView");
+        if (request.getSession().getAttribute("errorMessage") != null) {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
+        if (request.getParameter("categoryId") != null && !request.getParameter("categoryId").equals("")) {
+            Long id = Long.valueOf(request.getParameter("categoryId"));
+            model.addAttribute("productList", productService.productsByCategory(id));
+        } else
+            model.addAttribute("productList", new ArrayList<Product>());
+        return "product/product-view";
+    }
+
     @RequestMapping(value = "/product-edit", method = RequestMethod.GET)
-    public String edit(Model model, HttpServletRequest request)
-    {
+    public String edit(Model model, HttpServletRequest request) {
 
         Product product = new Product();
 
         Long id = null;
         if (request.getParameter("id") != null)
             id = Long.valueOf(request.getParameter("id"));
-        if (id != null && id > (long) 0)
-        {
+        if (id != null && id > (long) 0) {
             product = productService.findOne(id);
         }
         model.addAttribute("product", product);
@@ -56,8 +67,7 @@ public class ProductController
     }
 
     @RequestMapping(value = "/product-save", method = RequestMethod.POST)
-    public String save(Model model, HttpServletRequest request)
-    {
+    public String save(Model model, HttpServletRequest request) {
         String productName = request.getParameter("productName");
         String productCode = request.getParameter("productCode");
         Double minPrice = Double.valueOf(request.getParameter("minPrice"));
@@ -65,8 +75,7 @@ public class ProductController
         String location = request.getParameter("location");
         Product product = null;
 
-        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals(""))
-        {
+        if (request.getParameter("idObject") != null && !request.getParameter("idObject").equals("")) {
             Long id = Long.valueOf(request.getParameter("idObject"));
             if (id != null & id > (long) 0)
                 product = productService.findOne(id);
@@ -74,8 +83,7 @@ public class ProductController
             product = new Product();
 
         Long productunitId = null;
-        if (request.getParameter("productunitId") != null && !request.getParameter("productunitId").equals(""))
-        {
+        if (request.getParameter("productunitId") != null && !request.getParameter("productunitId").equals("")) {
             productunitId = Long.valueOf(request.getParameter("productunitId"));
 
         }
@@ -83,8 +91,7 @@ public class ProductController
             product.setProductunit(productService.findProductunitById(productunitId));
 
         Long supplierId = null;
-        if (request.getParameter("supplierId") != null && !request.getParameter("supplierId").equals(""))
-        {
+        if (request.getParameter("supplierId") != null && !request.getParameter("supplierId").equals("")) {
             supplierId = Long.valueOf(request.getParameter("supplierId"));
 
         }
@@ -92,8 +99,7 @@ public class ProductController
             product.setSupplier(productService.findSupplierById(supplierId));
 
         Long categoryId = null;
-        if (request.getParameter("categoryId") != null && !request.getParameter("categoryId").equals(""))
-        {
+        if (request.getParameter("categoryId") != null && !request.getParameter("categoryId").equals("")) {
             categoryId = Long.valueOf(request.getParameter("categoryId"));
 
         }
@@ -101,8 +107,7 @@ public class ProductController
             product.setCategory(productService.findCategoryById(categoryId));
 
         Long brandId = null;
-        if (request.getParameter("brandBeanId") != null && !request.getParameter("brandBeanId").equals(""))
-        {
+        if (request.getParameter("brandBeanId") != null && !request.getParameter("brandBeanId").equals("")) {
             brandId = Long.valueOf(request.getParameter("brandBeanId"));
 
         }
@@ -122,20 +127,17 @@ public class ProductController
     }
 
     @RequestMapping(value = "/product-delete", method = RequestMethod.GET)
-    public String delete(Model model, HttpServletRequest request)
-    {
-try
-{
+    public String delete(Model model, HttpServletRequest request) {
+        try {
 
 
-        Long id = Long.valueOf(request.getParameter("id"));
-        if (id != null)
-            productService.remove(id);
-} catch (Exception ex)
-{
+            Long id = Long.valueOf(request.getParameter("id"));
+            if (id != null)
+                productService.remove(id);
+        } catch (Exception ex) {
 
-    request.getSession().setAttribute("errorMessage", ex.getMessage());
-}
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
+        }
 
         return "redirect:/product-view";
     }

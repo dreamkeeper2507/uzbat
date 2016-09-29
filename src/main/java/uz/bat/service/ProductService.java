@@ -45,7 +45,9 @@ public class ProductService
     {
         return productRepository.findAll(page);
     }
-
+    public  List<Product> productsByCategory(Long id) {
+        return productRepository.getProductsByCategoryId(id);
+    }
 
     public List<ProductUnit> allPproductunit()
     {
@@ -96,6 +98,7 @@ public class ProductService
     CategoryRepository categoryRepository;
     @Autowired
     BrandRepository brandRepository;
+
 
 
 }
