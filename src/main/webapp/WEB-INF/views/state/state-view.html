@@ -36,6 +36,7 @@
                                     <th>Название</th>
                                     <th>Код</th>
                                     <th>Страна</th>
+                                    <th>Районы</th>
                                     <th></th>
                                     <th></th>
 
@@ -48,8 +49,8 @@
 
                                     <td th:if="${state.country != null}" th:text="${state.country.name}"></td>
                                     <td th:if="${state.country == null}"></td>
-                                    <!--<td th:inline="text"><a href="#" th:onclick="'deleteObject(\'poll\', \''+${address.id} + '\');'">Удалить</a></td>-->
-                                    <td><a th:href="@{/state-delete(id=${state.id})}">Удалить</a></td>
+                                    <td><a th:href="@{/region-state-view(stateId=${state.id})}">Районы</a></td>
+                                         <td><a th:href="@{/state-delete(id=${state.id})}">Удалить</a></td>
                                     <td><a th:href="@{/state-edit(id=${state.id})}">Редактирвать</a></td>
                                 </tr>
                                 <!--deleteobj('+','5');-->

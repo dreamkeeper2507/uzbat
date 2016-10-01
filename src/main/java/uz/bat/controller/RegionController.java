@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import uz.bat.common.ErrorText;
+import uz.bat.model.entity.Product;
 import uz.bat.model.entity.Region;
 
 import uz.bat.service.RegionService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 
 @Controller
@@ -52,6 +54,22 @@ public class RegionController
         return "region/region-edit";
     }
 
+
+    @RequestMapping(value = "/region-state-view", method = RequestMethod.GET)
+    public String stateView(Model model, HttpServletRequest request) {
+        logger.info("stateView");
+        if (request.getSession().getAttribute("errorMessage") != null) {
+            model.addAttribute("errorMessage", ErrorText.REMOVE_ERROR.getError());
+            request.getSession().removeAttribute("errorMessage");
+        }
+        if (request.getParameter("stateId") != null && !request.getParameter("stateId").equals("")) {
+            Long id = Long.valueOf(request.getParameter("stateId"));
+            model.addAttribute("regionList", regionService.regionsByState(id));
+        } else
+            model.addAttribute("regionList", new ArrayList<Product>());
+        return "region/region-view";
+    }
+    
     @RequestMapping(value = "/region-save", method = RequestMethod.POST)
     public String save(Model model, HttpServletRequest request)
     {

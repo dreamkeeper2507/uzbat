@@ -56,6 +56,7 @@
 
                                     <div class="col-sm-10">
                                         <select id="categoryId" name="categoryId" class="form-control">
+                                            <option></option>
                                             <option th:each="category : ${categoryList}" th:value="${category.id}"
                                                     th:text="${category.categoryName}"  th:selected="${category != null and category.category !=null and category.id == category.category.id}"/>
                                         </select>

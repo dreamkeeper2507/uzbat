@@ -64,4 +64,7 @@ public class RegionService
     StateRepository stateRepository;
 
 
+    public List<Region> regionsByState(Long id) {
+        return regionRepository.findByCategoryId(id);
+    }
 }

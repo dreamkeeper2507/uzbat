@@ -53,6 +53,7 @@
 
                                     <div class="col-sm-10">
                                         <select id="personId" name="personId" class="form-control">
+                                            <option></option>
                                             <option th:each="person : ${personList}" th:value="${person.id}"
                                                     th:text="${person.personLName}"  th:selected="${store != null and store.person !=null and person.id == store.person.id}"/>
                                         </select>
@@ -63,6 +64,7 @@
 
                                     <div class="col-sm-10">
                                         <select id="storeTypeId" name="storeTypeId" class="form-control">
+                                            <option></option>
                                             <option th:each="storeType : ${storeTypeList}" th:value="${storeType.id}"
                                                     th:text="${storeType.typeName}"  th:selected="${store != null and store.storetype !=null and storeType.id == store.storetype.id}"/>
                                         </select>
@@ -73,6 +75,7 @@
 
                                     <div class="col-sm-10">
                                         <select id="addressId" name="addressId" class="form-control">
+                                            <option></option>
                                             <option th:each="addressId : ${addressList}" th:value="${addressId.id}"
                                                     th:text="${addressId.address}"  th:selected="${store != null and store.addressBean !=null and addressId.id == store.addressBean.id}"/>
                                         </select>

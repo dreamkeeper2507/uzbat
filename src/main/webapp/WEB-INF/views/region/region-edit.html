@@ -21,7 +21,7 @@
 
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Регион</div>
+                            <div class="panel-title">Район</div>
 
                             <div class="panel-options">
                                 <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
@@ -55,6 +55,7 @@
                                     <label for="stateId" class="col-sm-2 control-label">Область</label>
 
                                     <div class="col-sm-10">
+                                        <option></option>
                                         <select id="stateId" name="stateId" class="form-control">
                                             <option th:each="state : ${stateList}" th:value="${state.id}"
                                                     th:text="${state.name}"  th:selected="${region != null and region.state !=null and state.id == region.state.id}"/>
